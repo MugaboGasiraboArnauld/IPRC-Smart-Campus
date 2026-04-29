@@ -1,0 +1,11 @@
+const express = require('express');
+const r = express.Router();
+const mc = require('../controllers/mainController');
+const { protect, authorize } = require('../middleware/auth');
+r.get('/', protect, mc.getHostels);
+r.post('/', protect, authorize('admin'), mc.createHostel);
+r.put('/:id', protect, authorize('admin'), mc.updateHostel);
+r.delete('/:id', protect, authorize('admin'), mc.deleteHostel);
+r.post('/book', protect, authorize('student'), mc.bookHostel);
+r.get('/bookings/all', protect, authorize('admin'), mc.getBookings);
+module.exports = r;
